@@ -12,4 +12,6 @@ AI-driven WhatsApp systems built with n8n, structured LLM outputs and determinis
 
 **Status legend:** 🟢 Production · 🔵 Working (validated, runs on demand) · 🟡 Built, not yet active · 🟠 In development · ⚪ Legacy
 
+📄 [MIT License](LICENSE)
+
 > All workflow files are sanitized exports: credentials, IDs, phone numbers, addresses, prices and personal data were replaced with placeholders.
