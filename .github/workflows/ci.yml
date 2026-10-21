@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  scheduling-rules:
+    name: Scheduling rules (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    defaults:
+      run:
+        working-directory: vita-ai-receptionist/src/scheduling-rules
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+
+  workflows:
+    name: n8n workflow files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Every workflow is valid JSON with nodes and connections
+        run: |
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const files = [];
+            const walk = (d) => fs.readdirSync(d, {withFileTypes: true}).forEach((e) => {
+              const p = path.join(d, e.name);
+              if (e.isDirectory() && !e.name.startsWith(".") && e.name !== "node_modules") walk(p);
+              else if (p.includes(`${path.sep}workflows${path.sep}`) && p.endsWith(".json")) files.push(p);
+            });
+            walk(".");
+            for (const f of files) {
+              const w = JSON.parse(fs.readFileSync(f, "utf8"));
+              if (!Array.isArray(w.nodes) || typeof w.connections !== "object") throw new Error(`${f}: not an n8n workflow`);
+              const leaked = w.nodes.filter((n) => n.credentials && Object.values(n.credentials).some((c) => c.id));
+              if (leaked.length) throw new Error(`${f}: credential ids present in ${leaked.map((n) => n.name)}`);
+              console.log(`ok  ${f}  (${w.nodes.length} nodes)`);
+            }
+          '
