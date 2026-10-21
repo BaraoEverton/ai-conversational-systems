@@ -1,0 +1,14 @@
+{
+  "name": "vita-scheduling-rules",
+  "version": "1.0.0",
+  "description": "Deterministic scheduling rules used by the Vita AI receptionist (holidays, locations, minimum notice, start window).",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

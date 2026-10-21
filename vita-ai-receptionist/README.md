@@ -40,6 +40,11 @@ It is not a canned-response bot. The architecture is fully customizable: service
 
 ## 🏗 Architecture
 
+![Vita architecture](docs/architecture.svg)
+
+<details>
+<summary>Text version</summary>
+
 ```
 WhatsApp ─► Evolution API ─► n8n webhook
                                │
@@ -62,9 +67,19 @@ WhatsApp ─► Evolution API ─► n8n webhook
                                └─ reply writer ─► replies split in parts (Loop + Wait) ─► WhatsApp
 ```
 
+</details>
+
+**The real workflow in n8n** (100 nodes, positions taken from the canvas):
+
+![Vita main workflow in n8n](docs/workflow-canvas.svg)
+
 **Custom context injection:** each specialist receives only the knowledge blocks chosen by the interpreter (`contextos_necessarios`), plus conversation state and recent history. Less noise, nothing invented.
 
 ---
+
+## 🧪 Tested scheduling rules
+
+The scheduling logic lives in two n8n Code nodes. It is also extracted into [`src/scheduling-rules`](src/scheduling-rules), a plain Node.js module with **17 unit tests** and a **parity test**: it runs the original node code from the exported workflow and checks that the module returns the same output in 300 random scenarios. CI runs on every push (Node 20 and 22).
 
 ## 🛡 Production conventions
 
@@ -95,6 +110,8 @@ WhatsApp ─► Evolution API ─► n8n webhook
 | `workflows/02-scheduling-subflow.json` | Calendar lookup and slot rules | 🟢 Production |
 | `workflows/03-admin-on-off.json` | Standalone admin menu (on/off per patient, contact list) | 🟡 Built, not yet active |
 | `workflows/legacy/v1-google-sheets.json` | First version, Google Sheets as database | ⚪ Legacy (migrated to Postgres) |
+| `src/scheduling-rules/` | Scheduling rules as a tested module (unit + parity tests, CI) | 🟢 Mirrors production |
+| `docs/` | Architecture diagram and workflow map | 📘 Docs |
 | `services/pdf-converter/` | FastAPI + PyMuPDF: PDF/image → PNG per page (`/convert`, `/convert-all`) | 🟢 Production |
 
 ---
