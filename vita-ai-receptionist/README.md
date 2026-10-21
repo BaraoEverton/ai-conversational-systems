@@ -1,7 +1,7 @@
 # 🩺 Vita — AI Receptionist on WhatsApp
 #### Production multi-agent system · n8n · Postgres · OpenAI · self-hosted
 
-**Status:** 🟢 In production
+**Status:** 🟢 In production · [![CI](https://github.com/BaraoEverton/ai-conversational-systems/actions/workflows/ci.yml/badge.svg)](https://github.com/BaraoEverton/ai-conversational-systems/actions/workflows/ci.yml)
 
 [![Vita — demo on YouTube](https://img.youtube.com/vi/VJTlh0OVKQI/maxresdefault.jpg)](https://www.youtube.com/watch?v=VJTlh0OVKQI)
 

@@ -1,5 +1,7 @@
 # 🧠 AI Conversational Systems
 
+[![CI](https://github.com/BaraoEverton/ai-conversational-systems/actions/workflows/ci.yml/badge.svg)](https://github.com/BaraoEverton/ai-conversational-systems/actions/workflows/ci.yml)
+
 AI-driven WhatsApp systems built with n8n, structured LLM outputs and deterministic business rules.
 
 ▶️ **[Vita demo on YouTube](https://www.youtube.com/watch?v=VJTlh0OVKQI)**
