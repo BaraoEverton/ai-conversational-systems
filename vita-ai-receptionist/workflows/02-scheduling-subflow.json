@@ -1,0 +1,577 @@
+{
+  "name": "Vita - Scheduling subflow",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "tipo_consulta"
+            },
+            {
+              "name": "acao"
+            },
+            {
+              "name": "data_inicio"
+            },
+            {
+              "name": "data_fim"
+            },
+            {
+              "name": "datas",
+              "type": "array"
+            },
+            {
+              "name": "hora_inicio"
+            },
+            {
+              "name": "hora_fim"
+            },
+            {
+              "name": "duracao_minutos",
+              "type": "number"
+            },
+            {
+              "name": "tempo_pos_atendimento",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1072,
+        336
+      ],
+      "id": "9ce39a5a-66d1-4934-b124-342c3a7a9e31",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "YOUR_RESOURCE_ID",
+          "mode": "list",
+          "cachedResultName": "https://your-scheduling-system.example.com/ics?id=YOUR_ID"
+        },
+        "timeMin": "={{\n  DateTime.fromISO(\n    $json.datas\n    + 'T' +\n    $json.hora_inicio,\n    { zone: 'America/Sao_Paulo' }\n  ).toISO() || ''\n}}",
+        "timeMax": "={{\n  DateTime.fromISO(\n    $json.datas\n    + 'T' +\n    $json.hora_fim,\n    { zone: 'America/Sao_Paulo' }\n  ).toISO() || ''\n}}",
+        "options": {
+          "outputFormat": "bookedSlots",
+          "timezone": {
+            "__rl": true,
+            "value": "YOUR_RESOURCE_ID",
+            "mode": "list",
+            "cachedResultName": "America/Sao_Paulo"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        608,
+        352
+      ],
+      "id": "f0da0aae-bef8-4882-9eea-72bee04da62d",
+      "name": "pega_disponibilidade_medx1",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "YOUR_RESOURCE_ID",
+          "mode": "list",
+          "cachedResultName": "Médico "
+        },
+        "timeMin": "={{\n  DateTime.fromISO(\n    $json.datas\n    + 'T' +\n    $json.hora_inicio,\n    { zone: 'America/Sao_Paulo' }\n  ).toISO() || ''\n}}",
+        "timeMax": "={{\n  DateTime.fromISO(\n    $json.datas\n    + 'T' +\n    $json.hora_fim,\n    { zone: 'America/Sao_Paulo' }\n  ).toISO() || ''\n}}",
+        "options": {
+          "outputFormat": "bookedSlots",
+          "timezone": {
+            "__rl": true,
+            "value": "YOUR_RESOURCE_ID",
+            "mode": "list",
+            "cachedResultName": "America/Sao_Paulo"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        560
+      ],
+      "id": "6e9e3429-279f-401e-b2d7-6f7ffa02ba8c",
+      "name": "pega_disponibilidade_medico1",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5b0ef516-1044-4b70-9de4-4194dfd20680"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f664b53c-f30b-4ed6-90c1-83900a55fd95",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        544
+      ],
+      "id": "1e897bff-711b-44b3-974b-e8a164921f5e",
+      "name": "Switch2",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1248,
+        560
+      ],
+      "id": "e7eb17ab-8f89-43af-b7da-a378aec714b2",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "batchSize": "=1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        544
+      ],
+      "id": "08b86500-3124-43f9-8e7f-182de6ccedf5",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        592
+      ],
+      "id": "151d5269-1340-4224-92a3-96bd422f9a80",
+      "placeholder": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "datas",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        544
+      ],
+      "id": "ba16170d-cec6-402b-8bf1-4e3d3f0d1e5c",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "=sucesso,\ntipo_consulta,\nperiodo_consultado,\njanela_consultada,\nhorarios_livres,\nerror",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        352
+      ],
+      "id": "0ac78f60-61be-4f27-9557-697887d316b0",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.error }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "8a58c931-738f-4ed7-8c2c-5457b1ac7de9"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        352
+      ],
+      "id": "739a26f1-3fe5-4f1e-b75d-d7846bdd06e7",
+      "name": "Switch4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.error }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "8a58c931-738f-4ed7-8c2c-5457b1ac7de9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "sucesso"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        560
+      ],
+      "id": "abd6da21-6b66-4c9b-8e59-52516ead8ac8",
+      "name": "Switch5"
+    },
+    {
+      "parameters": {
+        "jsCode": "const pedido = $('Loop Over Items').item.json;\n\nconst data_consultada =\n  pedido.data_consultada ||\n  (typeof pedido.datas === 'string' ? pedido.datas : null) ||\n  pedido.data_inicio;\n\nif (!data_consultada || !pedido.hora_inicio || !pedido.hora_fim) {\n  throw new Error('Data ou janela de horário não informada.');\n}\n\nconst paraMinutos = valor => {\n  const resultado = String(valor).match(\n    /(?:T|^)(\\d{2}):(\\d{2})/\n  );\n\n  if (!resultado) {\n    throw new Error(`Horário inválido: ${valor}`);\n  }\n\n  return Number(resultado[1]) * 60 +\n    Number(resultado[2]);\n};\n\nconst paraHora = minutos =>\n  `${String(Math.floor(minutos / 60)).padStart(2, '0')}:` +\n  `${String(minutos % 60).padStart(2, '0')}`;\n\nconst inicioJanela =\n  paraMinutos(pedido.hora_inicio);\n\nconst fimJanela =\n  paraMinutos(pedido.hora_fim);\n\nif (fimJanela <= inicioJanela) {\n  throw new Error('A janela consultada é inválida.');\n}\n\nconst minutos =\n  Array(fimJanela - inicioJanela).fill(true);\n\nconst resultados =\n  $input.all().map(item => item.json ?? {});\n\nif (\n  resultados.some(item =>\n    item.error || item.errorMessage\n  )\n) {\n  throw new Error(\n    'Falha ao consultar uma das agendas.'\n  );\n}\n\nconst bloqueios = [\n  ...resultados\n    .filter(item => item.start && item.end)\n    .map(item => ({\n      inicio: item.start,\n      fim: item.end\n    })),\n\n  {\n    inicio: '12:00',\n    fim: '13:00'\n  }\n];\n\nfor (const bloqueio of bloqueios) {\n  const inicio = Math.max(\n    paraMinutos(bloqueio.inicio),\n    inicioJanela\n  );\n\n  const fim = Math.min(\n    paraMinutos(bloqueio.fim),\n    fimJanela\n  );\n\n  for (let minuto = inicio; minuto < fim; minuto++) {\n    minutos[minuto - inicioJanela] = false;\n  }\n}\n\nconst criarIntervalos = estado => {\n  const intervalos = [];\n  let inicio = null;\n\n  for (let indice = 0; indice <= minutos.length; indice++) {\n    const corresponde =\n      indice < minutos.length &&\n      minutos[indice] === estado;\n\n    if (corresponde && inicio === null) {\n      inicio = indice;\n    }\n\n    if (!corresponde && inicio !== null) {\n      intervalos.push({\n        inicio: paraHora(inicioJanela + inicio),\n        fim: paraHora(inicioJanela + indice)\n      });\n\n      inicio = null;\n    }\n  }\n\n  return intervalos;\n};\n\nconst horarios_ocupados =\n  criarIntervalos(false);\n\nconst horarios_livres =\n  criarIntervalos(true);\n\nreturn [\n  {\n    json: {\n      tipo_consulta:\n        pedido.tipo_consulta,\n\n      periodo_consultado: {\n        data_inicio: data_consultada,\n        data_fim: data_consultada\n      },\n\n      janela_consultada: {\n        inicio: pedido.hora_inicio,\n        fim: pedido.hora_fim\n      },\n\n      horarios_ocupados,\n\n      horarios_livres:\n        horarios_livres.length\n          ? horarios_livres\n          : ['intervalo_indisponivel']\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        560
+      ],
+      "id": "37eefa4c-a8f6-4ecf-a3bb-ad75cd479d70",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad5bebaf-0588-4c04-b5e4-6ecf98f44010",
+              "name": "status_execucao",
+              "value": "erro",
+              "type": "string"
+            },
+            {
+              "id": "b7c643c1-e52c-4803-958b-2eab7258eca9",
+              "name": "error",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            },
+            {
+              "id": "3f901d52-a0e7-48e2-9c22-b1db0241f0ed",
+              "name": "error",
+              "value": "={{ $json.error  }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        48
+      ],
+      "id": "2cd889b2-b3eb-482a-abdb-693824538d4c",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pega_disponibilidade_medx1": {
+      "main": [
+        [
+          {
+            "node": "Switch4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pega_disponibilidade_medico1": {
+      "main": [
+        [
+          {
+            "node": "Switch5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "pega_disponibilidade_medx1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "pega_disponibilidade_medico1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        []
+      ]
+    },
+    "Switch4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "active": false,
+  "meta": {
+    "note": "Sanitized export for portfolio: credentials, IDs and personal data replaced with placeholders."
+  }
+}

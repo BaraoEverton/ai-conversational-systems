@@ -1,0 +1,2175 @@
+{
+  "name": "Vita - Admin on/off",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b75cbb8d-e991-459a-8372-51a7abeab87e",
+              "name": "=phone",
+              "value": "={{ $('WPP_EVENT').item.json.body.data.key.remoteJid.replace(/\\D/g, '') }}",
+              "type": "string"
+            },
+            {
+              "id": "82cb8f8a-9a7e-41ca-b80c-64b70ee00919",
+              "name": "name",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "635d8640-9b2d-4360-baf9-639f0368c107",
+              "name": "message_type",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "2b77e196-6e2f-48a2-937d-2cecd612fd3b",
+              "name": "text",
+              "value": "={{ $('WPP_EVENT').item.json.body.data.message.conversation ||  \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "5fd34383-9e3b-45d7-ae2f-bf94fc88a20e",
+              "name": "caption_pdf_text",
+              "value": "={{ $json.body.data.message.documentMessage.caption  || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "570139ee-8810-423c-b4fe-79f6f4f6b16e",
+              "name": "caption_image_text",
+              "value": "= {{ $('WPP_EVENT').item.json.body.data.message.imageMessage.caption || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "d0f3548e-d0ef-4a5e-bc53-c915266f31ad",
+              "name": "message_timestamp",
+              "value": "={{ $json.body.data.messageTimestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "4436c829-0230-4960-855c-0e9fc962c618",
+              "name": "from_me",
+              "value": "={{ $json.body.data.key.fromMe }}",
+              "type": "boolean"
+            },
+            {
+              "id": "ea0b131d-0f1e-4e97-a7c2-8eff7d0d7815",
+              "name": "message_id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "abbea78d-f616-4e38-bbc7-6b4195e2dfaa",
+              "name": "tipo",
+              "value": "={{ $json.body.data.message.documentMessage.mimetype }}",
+              "type": "string"
+            },
+            {
+              "id": "1a21a35d-c79c-4d99-8b6a-dae5fca9c6ee",
+              "name": "file_name",
+              "value": "={{ $json.body.data.message.documentMessage.fileName }}",
+              "type": "string"
+            },
+            {
+              "id": "2eb40786-73c6-4002-bcb0-13c7be64fc0f",
+              "name": "destination",
+              "value": "={{ $json.body.destination }}",
+              "type": "string"
+            },
+            {
+              "id": "bc03d841-2e0d-44af-8206-65d4eef24103",
+              "name": "sender",
+              "value": "={{ $json.body.sender.replace(/\\D/g, '') }}",
+              "type": "string"
+            },
+            {
+              "id": "8640d69e-5518-4242-bf24-51982baff125",
+              "name": "execution_mode",
+              "value": "={{ $json.executionMode }}",
+              "type": "string"
+            },
+            {
+              "id": "29ada118-22e6-4851-92ca-85a653d16893",
+              "name": "data",
+              "value": "={{ DateTime.now()\n.setZone('America/Sao_Paulo')     .toFormat('dd/LL/yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "fab30696-e252-48cc-82db-aec1eb4685ab",
+              "name": "time",
+              "value": "={{ DateTime.now().setZone('America/Sao_Paulo').toFormat('HH:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "591c4340-5dc1-477a-9867-c1fac71b1be6",
+              "name": "=n8n_execution",
+              "value": "={{ $execution.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3296,
+        -352
+      ],
+      "id": "58028dc2-86a6-4c05-9c53-06336f05aff4",
+      "name": "payload_webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bpm-profile",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3520,
+        -352
+      ],
+      "id": "84bd8e74-5499-4fd2-864c-9c07337c00a7",
+      "name": "WPP_EVENT"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('payload_webhook').item.json.from_me }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    },
+                    "id": "81b47266-2fb6-4228-b389-d4749ba16386"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "6e65ed83-e973-4ad9-8de7-0868806a0b29",
+      "name": "Remetente",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -3088,
+        -352
+      ],
+      "alwaysOutputData": false,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "479ab593-2507-47ec-9836-2c09f9dbeefe",
+              "leftValue": "={{\n  [\n    '5500000000000',\n    '5500000000000',\n    '5500000000000',\n    '5500000000000',\n    '5500000000000',\n    '5500000000000',\n    '5500000000000'\n  ].includes(\n    String($json.phone || '').replace(/\\D/g, '')\n  )\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2784,
+        -368
+      ],
+      "id": "857d0786-7af1-4c4a-b0d5-8ece9647a8b2",
+      "name": "ADMIN_AUTORIZADO"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "129e8ad7-951e-41bf-bff8-3dda7216413e",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2e7fe94f-fabf-4ba3-a8d0-bbe57129a8cf",
+              "name": "etapa",
+              "value": "menu",
+              "type": "string"
+            },
+            {
+              "id": "85de9e40-3575-4b2d-a27e-6a5e1f115de7",
+              "name": "acao",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "2973c8a0-ff12-4d4e-8200-c9df0eda6b49",
+              "name": "lista_json",
+              "value": "=",
+              "type": "string"
+            },
+            {
+              "id": "4a3b9f5f-9ce6-4024-8963-4e915c715801",
+              "name": "mensagem",
+              "value": "=*VITA GESTÃO*\n\n1. Desligar a VITA para um usuário\n2. Reativar a VITA para um usuário\n0. Cancelar\n\nResponda somente com o número da opção.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -816,
+        -96
+      ],
+      "id": "9f9c01c5-1e04-4473-a104-ce2c4d12aecb",
+      "name": "MONTA_MENU"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($('payload_webhook').first().json.text || '').trim() }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e44dea3a-aead-4acb-99d9-c5813193e3df"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "desligar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d2726f6f-e639-42c3-bfac-22651aa58022",
+                    "leftValue": "={{ String($('payload_webhook').first().json.text || '').trim() }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "reativar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a8b05253-917d-4435-bb26-845c7c2d96d0",
+                    "leftValue": "={{ String($('payload_webhook').first().json.text || '').trim() }}",
+                    "rightValue": "0",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cancelar"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1184,
+        -448
+      ],
+      "id": "c4778171-9a08-4cad-b952-631e48321e42",
+      "name": "OPÇÃO_MENU"
+    },
+    {
+      "position": [
+        -208,
+        -1152
+      ],
+      "id": "c88f9ce3-309f-48a5-947d-13388cf57204",
+      "name": "MARCA_DESLIGAR",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.atualizar('admin_sessions', 'admin_phone', $1, $2::jsonb, false) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($('payload_webhook').first().json.phone) ?? \"\")), JSON.stringify({ \"admin_phone\": (($('payload_webhook').first().json.phone) ?? \"\"), \"updated_at\": ((DateTime.now()     .setZone('America/Sao_Paulo')     .toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"etapa\": \"aguardando_usuario\", \"acao\": \"desligar\", \"pagina\": \"1\" }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evolution.example.com/message/sendText/YOUR_INSTANCE",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('payload_webhook').first().json.phone }}"
+            },
+            {
+              "name": "text",
+              "value": "={{\n  $json.mensagem\n  || (\n    $('MONTA_CANCELAMENTO').isExecuted\n      ? $('MONTA_CANCELAMENTO').first().json.mensagem\n      : $('MONTA_LISTA_USUARIOS').isExecuted\n        ? $('MONTA_LISTA_USUARIOS').first().json.mensagem\n        : $('MONTA_MENU').first().json.mensagem\n  )\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "07bb02ff-4d43-4313-a470-12358f300da7",
+      "name": "ENVIA_ADMIN",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        976,
+        -112
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      }
+    },
+    {
+      "position": [
+        -2544,
+        -384
+      ],
+      "id": "2430801f-54b2-42e6-bc20-4e99efe8eaab",
+      "name": "CONSULTA_BD_ADMIN",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select r->'spreadsheetId' as \"spreadsheetId\", r->'valueRanges' as \"valueRanges\" from cdl.bd_admin_valueranges() as r;",
+        "options": {}
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Mantém somente números em telefones e IDs\nconst somenteNumeros = valor =>\n  String(valor ?? '').replace(/\\D/g, '');\n\n// Transforma uma tabela do Sheets em objetos\nfunction transformarTabela(values = []) {\n  const [cabecalho = [], ...linhas] = values;\n\n  return linhas.map((linha, indice) => {\n    const campos = cabecalho\n      .map((coluna, posicao) => [\n        String(coluna ?? '').trim(),\n        linha[posicao] ?? '',\n      ])\n      .filter(([coluna]) => coluna);\n\n    return Object.fromEntries([\n      ['row_number', indice + 2],\n      ...campos,\n    ]);\n  });\n}\n\n// Resposta do CONSULTA_BD_ADMIN\nconst valueRanges =\n  $input.first().json.valueRanges;\n\nif (!Array.isArray(valueRanges)) {\n  throw new Error(\n    'CONSULTA_BD_ADMIN não retornou valueRanges.'\n  );\n}\n\n// Localiza uma aba dentro do resultado\nfunction buscarAba(nome) {\n  const bloco = valueRanges.find(item =>\n    String(item.range || '')\n      .replaceAll(\"'\", '')\n      .startsWith(`${nome}!`)\n  );\n\n  return transformarTabela(bloco?.values);\n}\n\n// Administrador que enviou a mensagem\nconst adminPhone = somenteNumeros(\n  $('payload_webhook').first().json.phone\n);\n\nif (!adminPhone) {\n  throw new Error(\n    'Telefone do administrador não encontrado.'\n  );\n}\n\n// Procura a sessão do administrador\nconst sessao = buscarAba('admin_sessions')\n  .find(item =>\n    somenteNumeros(item.admin_phone) === adminPhone\n  ) || {};\n\n// Carrega e normaliza todos os usuários\nconst usuarios = buscarAba('user_profile')\n  .filter(item => somenteNumeros(item.user_id))\n  .map(item => ({\n    ...item,\n\n    user_id:\n      somenteNumeros(item.user_id),\n\n    // Vazio também significa VITA ligada\n    vita_status:\n      String(item.vita_status || 'on')\n        .trim()\n        .toLowerCase() || 'on',\n  }));\n\n// Um único item para continuar o workflow\nreturn [\n  {\n    json: {\n      admin_phone: adminPhone,\n\n      session_row_number:\n        sessao.row_number || null,\n\n      etapa:\n        String(sessao.etapa || 'menu').trim() ||\n        'menu',\n\n      acao:\n        String(sessao.acao || '').trim(),\n\n      updated_at:\n  String(sessao.updated_at || '').trim(),\n\n      pagina:\n        Math.max(\n          1,\n          Number(sessao.pagina) || 1\n        ),\n\n      lista_json:\n        sessao.lista_json || '',\n\n      usuario_selecionado_json:\n  sessao.usuario_selecionado_json || '',\n\n      usuarios,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2352,
+        -384
+      ],
+      "id": "6e0293ed-6aa2-4dc4-a361-c3013277179c",
+      "name": "PAYLOAD_BD_ADMIN"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.etapa || 'menu' }}",
+                    "rightValue": "menu",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d8c5c8df-bd02-43e0-a8b5-9ddfa70cf7a2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "consultar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "68021aec-c07f-45fb-9c00-74a7d73a1ed2",
+                    "leftValue": "={{ $json.etapa || 'menu' }}",
+                    "rightValue": "aguardando_usuario",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "executar"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1712,
+        -400
+      ],
+      "id": "ad989147-6e39-40b7-b240-d6558d6250b5",
+      "name": "ETAPA_ADMIN"
+    },
+    {
+      "position": [
+        64,
+        -1152
+      ],
+      "id": "6ea7168f-83bc-4bc1-b233-600acb147ac9",
+      "name": "MARCA_REATIVAR",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.atualizar('admin_sessions', 'admin_phone', $1, $2::jsonb, false) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($('payload_webhook').first().json.phone) ?? \"\")), JSON.stringify({ \"admin_phone\": (($('payload_webhook').first().json.phone) ?? \"\"), \"updated_at\": \"\", \"etapa\": \"aguardando_usuario\", \"acao\": \"reativar\", \"pagina\": \"1\" }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "usuarios",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "usuario"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -704
+      ],
+      "id": "d4419e20-2497-4595-aabf-f28d29f63c5a",
+      "name": "SEPARA_USUARIOS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18a4b9df-bc7b-4721-914b-ac6471ef6995",
+              "name": "mensagem",
+              "value": "=*VITA GESTÃO*\n\n1 — Desligar a VITA para um usuário\n2 — Reativar a VITA para um usuário\n0 — Cancelar\n\nResponda somente com o número da opção.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        -912
+      ],
+      "id": "7ab1d258-ffa9-42d5-a384-2f5e0c7c90ad",
+      "name": "MONTA_MENU1"
+    },
+    {
+      "position": [
+        -608,
+        -96
+      ],
+      "id": "a3664b8c-105f-4294-b3d1-196208c0ad66",
+      "name": "SALVA_MENU_ADMIN",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.salvar_sessao($1, $2::jsonb) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($json.admin_phone) ?? \"\")), JSON.stringify({ \"admin_phone\": (($json.admin_phone) ?? \"\"), \"updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"etapa\": (($json.etapa) ?? \"\"), \"acao\": (($json.acao) ?? \"\"), \"pagina\": \"1\", \"lista_json\": (($json.lista_json) ?? \"\") }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "129e8ad7-951e-41bf-bff8-3dda7216413e",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2e7fe94f-fabf-4ba3-a8d0-bbe57129a8cf",
+              "name": "etapa",
+              "value": "aguardando_usuario",
+              "type": "string"
+            },
+            {
+              "id": "85de9e40-3575-4b2d-a27e-6a5e1f115de7",
+              "name": "acao",
+              "value": "=desligar",
+              "type": "string"
+            },
+            {
+              "id": "32e0cb72-6ff0-44c9-a7dc-5704bff305fa",
+              "name": "usuarios",
+              "value": "={{ $json.usuarios }}",
+              "type": "array"
+            },
+            {
+              "id": "c7238e7c-6647-46f3-9545-4dea9f43c93c",
+              "name": "pagina",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        -688
+      ],
+      "id": "90e57ca2-f698-4c90-a6b0-dc41adab66df",
+      "name": "DEFINE_DESLIGAR"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b79038e0-d8bd-4d50-b855-b80ad08cd733",
+              "leftValue": "={{ String($json.usuario.vita_status || 'on').trim().toLowerCase() }}",
+              "rightValue": "off",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -448
+      ],
+      "id": "2636aead-79de-4814-8899-d8c669e7b490",
+      "name": "FILTRA_LIGADOS1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "usuarios_filtrados",
+        "include": "specifiedFields",
+        "fieldsToInclude": "=admin_phone,\netapa,\nacao,\npagina,\nusuario",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        368,
+        -592
+      ],
+      "id": "f35db836-a940-46b0-a844-08f6ba191c92",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7690f8ae-7d51-4b29-9c20-d75c655b6d1a",
+              "name": "admin_phone",
+              "value": "={{ $json.usuarios_filtrados[0].admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "001fab7c-07e4-4e1e-a851-2e91b815d4ac",
+              "name": "etapa",
+              "value": "={{ $json.usuarios_filtrados[0].etapa }}",
+              "type": "string"
+            },
+            {
+              "id": "a1ced68b-278f-4b4d-985a-68efbe61b685",
+              "name": "acao",
+              "value": "={{ $json.usuarios_filtrados[0].acao }}",
+              "type": "string"
+            },
+            {
+              "id": "1124bc11-aae3-40d7-9d51-cdb45cc6b24f",
+              "name": "lista_json",
+              "value": "={{\n  (() => {\n    const porPagina = 8;\n    const pagina = Number(\n      $json.usuarios_filtrados[0].pagina || 1\n    );\n\n    const inicio = (pagina - 1) * porPagina;\n\n    return JSON.stringify(\n      $json.usuarios_filtrados\n        .slice(inicio, inicio + porPagina)\n        .map((item, index) => ({\n          opcao: index + 1,\n          user_id: String(item.usuario.user_id || ''),\n          first_name: String(\n            item.usuario.first_name || 'Sem nome'\n          ),\n          row_number: item.usuario.row_number,\n          vita_status: item.usuario.vita_status\n        }))\n    );\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "53d72b67-d460-4b73-bad8-835a8c5c7ec4",
+              "name": "mensagem",
+              "value": "={{\n  (() => {\n    const porPagina = 8;\n\n    const pagina = Number(\n      $json.usuarios_filtrados[0].pagina || 1\n    );\n\n    const inicio = (pagina - 1) * porPagina;\n\n    const usuariosPagina = $json.usuarios_filtrados.slice(\n      inicio,\n      inicio + porPagina\n    );\n\n    const totalPaginas = Math.max(\n      1,\n      Math.ceil(\n        $json.usuarios_filtrados.length / porPagina\n      )\n    );\n\n    const temMais =\n      $json.usuarios_filtrados.length >\n      inicio + porPagina;\n\n    const titulo =\n      $json.usuarios_filtrados[0].acao === 'desligar'\n        ? '*USUÁRIOS PARA DESLIGAR*'\n        : '*USUÁRIOS PARA REATIVAR*';\n\n    const mascararTelefone = valor => {\n      const numero = String(valor || '')\n        .replace(/\\D/g, '');\n\n      if (numero.length < 11) {\n        return `**** ${numero.slice(-4)}`;\n      }\n\n      const telefone = numero.slice(-11);\n\n      return (\n        `${telefone.slice(0, 2)} ` +\n        `${telefone.slice(2, 3)}**** ` +\n        `${telefone.slice(-4)}`\n      );\n    };\n\n    const nomes = usuariosPagina.map(item => {\n      const nomeOriginal = String(\n        item.usuario.first_name || 'Sem nome'\n      ).trim();\n\n      return nomeOriginal.length > 18\n        ? nomeOriginal.slice(0, 17) + '…'\n        : nomeOriginal;\n    });\n\n    const larguraNome = 18;\n\n    const linhas = usuariosPagina\n      .map((item, index) => {\n        const nome = nomes[index].padEnd(larguraNome, ' ');\n        const telefone = mascararTelefone(\n          item.usuario.user_id\n        );\n\n        return `${index + 1}. ${nome} | ${telefone}`;\n      })\n      .join('\\n');\n\n    const blocoLista =\n      '```\\n' +\n      linhas +\n      '\\n```';\n\n    return (\n      titulo +\n      `\\n\\nPágina ${pagina} de ${totalPaginas}` +\n      `\\n\\n${blocoLista}` +\n      (\n        temMais\n          ? '\\n\\n9. Mostrar mais usuários'\n          : ''\n      ) +\n      '\\n0. Cancelar' +\n      '\\n\\nResponda somente com o número da opção.'\n    );\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "e512d419-b365-45b8-b075-e30dd169b57c",
+              "name": "pagina",
+              "value": "={{ Number($json.usuarios_filtrados[0].pagina || 1) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        -544
+      ],
+      "id": "7a26e598-4784-480f-9d2c-80c6f958f95b",
+      "name": "MONTA_LISTA_USUARIOS"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b79038e0-d8bd-4d50-b855-b80ad08cd733",
+              "leftValue": "={{ String($json.usuario.vita_status || 'on').trim().toLowerCase() }}",
+              "rightValue": "on",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -704
+      ],
+      "id": "f09148b2-d815-4ae7-bbe4-24a62acefd04",
+      "name": "FILTRA_DESLIGADOS"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "usuario.row_number",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -592
+      ],
+      "id": "21989732-e5fb-45bb-a218-03f5a3b99d3e",
+      "name": "ORDENA_USUARIOS"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($('payload_webhook').first().json.text || '').trim() }}",
+                    "rightValue": "0",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "722f86f1-1d8c-4380-9298-a10063d76d05"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cancelar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a5d55559-7e00-451e-b06d-2c7732b72da8",
+                    "leftValue": "={{ String($('payload_webhook').first().json.text || '').trim() }}",
+                    "rightValue": "9",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "mais_usuarios"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1408,
+        128
+      ],
+      "id": "70630314-1bc9-4a77-af5b-fe1f4313f17b",
+      "name": "OPÇÃO_USUARIO"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780050e6-d971-4d4b-a26d-7372e3043105",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "b3520724-ffa0-4011-8195-100d5139f379",
+              "name": "acao",
+              "value": "={{ $json.acao }}",
+              "type": "string"
+            },
+            {
+              "id": "3a55cf07-b398-4bc7-ae7d-ab804bb7726a",
+              "name": "usuario_escolhido",
+              "value": "={{\n  JSON.parse($json.lista_json || '[]').find(\n    item =>\n      String(item.opcao) ===\n      String($('payload_webhook').first().json.text || '').trim()\n  ) || {}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1040,
+        624
+      ],
+      "id": "c52b839d-9218-4513-9060-0fb7b220e5cf",
+      "name": "PREPARA_ESCOLHA"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "57c829e1-0363-4ce4-bdc4-5fb94b6a65e7",
+              "leftValue": "={{ Boolean($json.usuario_escolhido?.user_id) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -832,
+        624
+      ],
+      "id": "475243ca-4bef-4b5c-b011-39d557cb8328",
+      "name": "ESCOLHA_VALIDA"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.acao }}",
+                    "rightValue": "desligar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8ced629b-ef88-47ef-a7ee-e03aa2f6af0f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "desligar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2a6b88af-86b4-4169-846c-1f37704a6394",
+                    "leftValue": "={{ $json.acao }}",
+                    "rightValue": "reativar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "reativar"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -592,
+        336
+      ],
+      "id": "c0eacdc8-790d-432b-b327-267ca68fd1f2",
+      "name": "ACAO_ESCOLHIDA"
+    },
+    {
+      "position": [
+        -272,
+        320
+      ],
+      "id": "86b6ca92-199d-421b-8a7c-080312ad4253",
+      "name": "DESLIGA_VITA",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.atualizar('user_profile', 'user_id', $1, $2::jsonb, true) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($json.usuario_escolhido.user_id) ?? \"\")), JSON.stringify({ \"updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"user_id\": (($json.usuario_escolhido.user_id) ?? \"\"), \"vita_status\": \"off\", \"vita_updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"vita_updated_by\": (($json.admin_phone) ?? \"\") }) ] }}"
+        }
+      }
+    },
+    {
+      "position": [
+        0,
+        304
+      ],
+      "id": "f2b353dd-82a6-43b0-916a-f99ff35b91cc",
+      "name": "FINALIZA_SESSAO_ADMIN",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.atualizar('admin_sessions', 'admin_phone', $1, $2::jsonb, true) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($('PREPARA_ESCOLHA').first().json.admin_phone) ?? \"\")), JSON.stringify({ \"updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"admin_phone\": (($('PREPARA_ESCOLHA').first().json.admin_phone) ?? \"\"), \"etapa\": \"menu\", \"pagina\": \"1\", \"expires_at\": \"\", \"acao\": ((\"\") ?? \"\") }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3ca72946-0e90-496d-84cd-e04a94186610",
+              "name": "admin_phone",
+              "value": "={{ $('PREPARA_ESCOLHA').first().json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "f27c4d20-6d36-4220-b7d4-bc0a60b19199",
+              "name": "=mensagem",
+              "value": "=⚠️ Não foi possível concluir a operação com segurança.\n\nEntre em contato com o suporte antes de tentar novamente.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        672
+      ],
+      "id": "9b6728fd-4bb1-44ff-9f40-adac9a213c74",
+      "name": "MONTA_ERRO_OPERACAO"
+    },
+    {
+      "position": [
+        768,
+        -384
+      ],
+      "id": "a67196c0-83c7-43d8-9114-c8c26d07f7bb",
+      "name": "SALVA_CONSULTA_ADMIN",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.salvar_sessao($1, $2::jsonb) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($json.admin_phone) ?? \"\")), JSON.stringify({ \"admin_phone\": (($json.admin_phone) ?? \"\"), \"updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"etapa\": `aguardando_usuario`, \"acao\": (($json.acao) ?? \"\"), \"pagina\": (($json.pagina) ?? \"\"), \"lista_json\": (($json.lista_json) ?? \"\") }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "129e8ad7-951e-41bf-bff8-3dda7216413e",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2e7fe94f-fabf-4ba3-a8d0-bbe57129a8cf",
+              "name": "etapa",
+              "value": "aguardando_usuario",
+              "type": "string"
+            },
+            {
+              "id": "85de9e40-3575-4b2d-a27e-6a5e1f115de7",
+              "name": "acao",
+              "value": "=reativar",
+              "type": "string"
+            },
+            {
+              "id": "32e0cb72-6ff0-44c9-a7dc-5704bff305fa",
+              "name": "usuarios",
+              "value": "={{ $json.usuarios }}",
+              "type": "array"
+            },
+            {
+              "id": "9758eb56-cd9b-40fc-a03a-54813c09f89a",
+              "name": "pagina",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        -432
+      ],
+      "id": "a0725e39-a9d2-4c68-bac2-dcc56b21afac",
+      "name": "DEFINE_REATIVAR"
+    },
+    {
+      "position": [
+        -304,
+        752
+      ],
+      "id": "5736fb05-d880-4a54-9933-105b04452307",
+      "name": "REATIVA_VITA",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "configure-in-your-n8n"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select cdl.atualizar('user_profile', 'user_id', $1, $2::jsonb, true) as resultado;",
+        "options": {
+          "queryReplacement": "={{ [ String((($json.usuario_escolhido.user_id) ?? \"\")), JSON.stringify({ \"updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"user_id\": (($json.usuario_escolhido.user_id) ?? \"\"), \"vita_status\": \"on\", \"vita_updated_at\": ((DateTime.now().setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy HH:mm:ss')) ?? \"\"), \"vita_updated_by\": (($json.admin_phone) ?? \"\") }) ] }}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3ca72946-0e90-496d-84cd-e04a94186610",
+              "name": "admin_phone",
+              "value": "={{ $('PREPARA_ESCOLHA').first().json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "f27c4d20-6d36-4220-b7d4-bc0a60b19199",
+              "name": "=mensagem",
+              "value": "={{\n  $('PREPARA_ESCOLHA').first().json.acao === 'reativar'\n    ? '✅ VITA reativada para *' +\n      $('PREPARA_ESCOLHA').first().json.usuario_escolhido.first_name +\n      '*.\\n\\nO atendimento automático foi liberado novamente para esse usuário.'\n    : '✅ VITA desligada para *' +\n      $('PREPARA_ESCOLHA').first().json.usuario_escolhido.first_name +\n      '*.\\n\\nO atendimento automático foi interrompido para esse usuário.'\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        288
+      ],
+      "id": "578ca8a8-278d-4c4e-bba5-973c40cf133c",
+      "name": "MONTA_SUCESSO_OPERACAO"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b234e190-5547-4fb4-bbe8-0b77758eb7e7",
+              "leftValue": "={{\n  ($json.usuarios || []).some(\n    usuario =>\n      String(usuario.vita_status || 'on')\n        .trim()\n        .toLowerCase() === 'on'\n  )\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -624,
+        -688
+      ],
+      "id": "9eaf8660-b3a5-4838-a8a2-153ce89294dc",
+      "name": "EXCESSÃO_DESATIVAR"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "usuarios",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "usuario"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -448
+      ],
+      "id": "4aaddc2a-3d64-4d84-8a6b-c7f3dba4f5d5",
+      "name": "SEPARA_USUARIOS_REATIVAR"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c3a23a25-c4cd-4acc-bfd6-75c5ff382a24",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "9e63c41d-db63-4117-8e41-95bc89544c5f",
+              "name": "mensagem",
+              "value": "={{\n  (() => {\n    const usuarios = Array.isArray($json.usuarios)\n      ? $json.usuarios\n      : [];\n\n    if (usuarios.length === 0) {\n      return (\n        '*VITA GESTÃO*' +\n        '\\n\\nℹ️ *NENHUM USUÁRIO CADASTRADO*' +\n        '\\n\\nNão há usuários disponíveis no cadastro.' +\n        '\\n\\n*0* — Voltar ao menu'\n      );\n    }\n\n    if ($json.acao === 'desligar') {\n      return (\n        '*VITA GESTÃO*' +\n        '\\n\\nℹ️ *NENHUM USUÁRIO PARA DESLIGAR*' +\n        '\\n\\nTodos os usuários já estão com a VITA desligada.' +\n        '\\n\\n*2* — Ver usuários para reativar' +\n        '\\n*0* — Voltar ao menu'\n      );\n    }\n\n    return (\n      '*VITA GESTÃO*' +\n      '\\n\\nℹ️ *NENHUM USUÁRIO PARA REATIVAR*' +\n      '\\n\\nTodos os usuários já estão com a VITA ativa.' +\n      '\\n\\n*1* — Ver usuários para desligar' +\n      '\\n*0* — Voltar ao menu'\n    );\n  })()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        -224
+      ],
+      "id": "74bf230a-3024-46d4-80f8-9214ee532641",
+      "name": "RESPOSTA_EXCESSÃO"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b2d1bb4-5464-4533-af7f-6e0483e53bc2",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "30c84665-bb27-4053-8fd6-1a9fcab0ca42",
+              "name": "etapa",
+              "value": "aguardando_usuario",
+              "type": "string"
+            },
+            {
+              "id": "611925d4-e791-4a4c-9f78-d5d178b120c9",
+              "name": "acao",
+              "value": "={{ $json.acao }}",
+              "type": "string"
+            },
+            {
+              "id": "d16677fe-13d3-4ef5-bd50-8cf39cd39a11",
+              "name": "usuarios",
+              "value": "={{ $json.usuarios }}",
+              "type": "array"
+            },
+            {
+              "id": "73f7e8b5-354f-4b65-9ed4-8e14bc8eed73",
+              "name": "pagina",
+              "value": "={{ Number($json.pagina || 1) + 1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        400
+      ],
+      "id": "3a0aecad-5348-4cca-b08d-86e09a86deb1",
+      "name": "AUMENTA_PAGINA"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.acao }}",
+                    "rightValue": "desligar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2fa2c349-b3f7-4e05-addb-369573304731"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "desligar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "11b75ef4-fca6-4579-9729-afe2ab2f9ba7",
+                    "leftValue": "={{ $json.acao }}",
+                    "rightValue": "reativar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "reativar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -848,
+        400
+      ],
+      "id": "a5cdf54c-b58b-4e2f-9bd4-cda3a9beb078",
+      "name": "ACAO_PAGINACAO"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b234e190-5547-4fb4-bbe8-0b77758eb7e7",
+              "leftValue": "={{\n  ($json.usuarios || []).some(\n    usuario =>\n      String(usuario.vita_status || 'on')\n        .trim()\n        .toLowerCase() === 'off'\n  )\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -624,
+        -432
+      ],
+      "id": "74db4dad-523b-48b0-bfac-496e3c7d6982",
+      "name": "EXCESSÃO_REATIVAR"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7690f8ae-7d51-4b29-9c20-d75c655b6d1a",
+              "name": "admin_phone",
+              "value": "={{ $json.usuarios_filtrados[0].admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "001fab7c-07e4-4e1e-a851-2e91b815d4ac",
+              "name": "etapa",
+              "value": "={{ $json.usuarios_filtrados[0].etapa }}",
+              "type": "string"
+            },
+            {
+              "id": "a1ced68b-278f-4b4d-985a-68efbe61b685",
+              "name": "acao",
+              "value": "={{ $json.usuarios_filtrados[0].acao }}",
+              "type": "string"
+            },
+            {
+              "id": "1124bc11-aae3-40d7-9d51-cdb45cc6b24f",
+              "name": "lista_json",
+              "value": "={{\n  JSON.stringify(\n    $json.usuarios_filtrados\n      .slice(\n        (Number($json.usuarios_filtrados[0].pagina || 1) - 1) * 8,\n        Number($json.usuarios_filtrados[0].pagina || 1) * 8\n      )\n      .map((item, index) => ({\n        opcao: index + 1,\n        user_id: String(item.usuario.user_id || ''),\n        first_name: String(item.usuario.first_name || 'Sem nome'),\n        row_number: item.usuario.row_number,\n        vita_status: item.usuario.vita_status\n      }))\n  )\n}}",
+              "type": "string"
+            },
+            {
+              "id": "53d72b67-d460-4b73-bad8-835a8c5c7ec4",
+              "name": "mensagem",
+              "value": "={{\n  (() => {\n    const porPagina = 8;\n    const pagina = Number($json.usuarios_filtrados[0].pagina || 1);\n    const inicio = (pagina - 1) * porPagina;\n\n    const usuariosPagina = $json.usuarios_filtrados.slice(\n      inicio,\n      inicio + porPagina\n    );\n\n    const totalPaginas = Math.max(\n      1,\n      Math.ceil($json.usuarios_filtrados.length / porPagina)\n    );\n\n    const temMais =\n      $json.usuarios_filtrados.length > inicio + porPagina;\n\n    const acao =\n      $json.usuarios_filtrados[0].acao === 'desligar'\n        ? 'USUÁRIOS DISPONÍVEIS PARA DESLIGAR'\n        : 'USUÁRIOS DISPONÍVEIS PARA REATIVAR';\n\n    const mascararTelefone = valor => {\n      const numero = String(valor || '').replace(/\\D/g, '');\n\n      if (numero.length < 11) {\n        return `****-${numero.slice(-4)}`;\n      }\n\n      const telefoneLocal = numero.slice(-11);\n      const codigoPais = numero.slice(0, -11) || '55';\n\n      return (\n        `+${codigoPais} ` +\n        `(${telefoneLocal.slice(0, 2)}) ` +\n        `${telefoneLocal.slice(2, 3)}****-` +\n        `${telefoneLocal.slice(-4)}`\n      );\n    };\n\n    const linhas = usuariosPagina\n      .map(\n        (item, index) =>\n          `${index + 1} — *${item.usuario.first_name || 'Sem nome'}* — ` +\n          mascararTelefone(item.usuario.user_id)\n      )\n      .join('\\n');\n\n    const navegacao = [\n      temMais ? '*9* — Mostrar mais usuários' : null,\n      '*0* — Cancelar'\n    ]\n      .filter(Boolean)\n      .join('\\n');\n\n    return (\n      '*VITA GESTÃO*' +\n      `\\n\\n*${acao}*` +\n      `\\nPágina ${pagina} de ${totalPaginas}` +\n      `\\n\\n${linhas}` +\n      `\\n\\n${navegacao}` +\n      '\\n\\nDigite o número correspondente ao usuário.'\n    );\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "e512d419-b365-45b8-b075-e30dd169b57c",
+              "name": "pagina",
+              "value": "={{ Number($json.usuarios_filtrados[0].pagina || 1) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1248,
+        -352
+      ],
+      "id": "7c7277a9-27a9-4114-854a-5f70b6fdf9ad",
+      "name": "MONTA_LISTA_USUARIOS2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780050e6-d971-4d4b-a26d-7372e3043105",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "3a55cf07-b398-4bc7-ae7d-ab804bb7726a",
+              "name": "=mensagem",
+              "value": "⚠️ Opção inválida.\n\nResponda com o número correspondente ao usuário da lista ou *0* para cancelar.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -640,
+        576
+      ],
+      "id": "c6dcc921-b948-4112-b924-54da70d91ea6",
+      "name": "OPÇÃO INVALIDA"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c3d04c3d-66ae-4020-a3ee-0111e4014123",
+              "leftValue": "={{\n  $json.etapa !== 'menu' &&\n  !!$json.updated_at &&\n  DateTime.now()\n    .setZone('America/Sao_Paulo')\n    .diff(\n      DateTime.fromFormat(\n        $json.updated_at,\n        'dd/LL/yyyy HH:mm:ss',\n        { zone: 'America/Sao_Paulo' }\n      ),\n      'minutes'\n    ).minutes > 30\n}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1984,
+        -400
+      ],
+      "id": "addd75a5-d1d8-4c97-8d21-f47b7aeb7c4d",
+      "name": "SESSAO_EXPIRADA"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "129e8ad7-951e-41bf-bff8-3dda7216413e",
+              "name": "admin_phone",
+              "value": "={{ $json.admin_phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2e7fe94f-fabf-4ba3-a8d0-bbe57129a8cf",
+              "name": "etapa",
+              "value": "menu",
+              "type": "string"
+            },
+            {
+              "id": "85de9e40-3575-4b2d-a27e-6a5e1f115de7",
+              "name": "acao",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "2973c8a0-ff12-4d4e-8200-c9df0eda6b49",
+              "name": "lista_json",
+              "value": "=",
+              "type": "string"
+            },
+            {
+              "id": "54943c24-85ee-4967-9164-af99b7f8582c",
+              "name": "pagina",
+              "value": "1",
+              "type": "string"
+            },
+            {
+              "id": "4a3b9f5f-9ce6-4024-8963-4e915c715801",
+              "name": "mensagem",
+              "value": "=❌*OPERAÇÃO CANCELADA*\n\nPara reiniciar, degite o número da opção escolhida.\n\n1. Desligar a VITA para um usuário\n2. Reativar a VITA para um usuário\n0. Cancelar\n\nResponda somente com o número da opção.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -896,
+        128
+      ],
+      "id": "0c699803-c049-41cf-a001-3651a553d896",
+      "name": "MONTA_CANCELAMENTO"
+    }
+  ],
+  "connections": {
+    "WPP_EVENT": {
+      "main": [
+        [
+          {
+            "node": "payload_webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "payload_webhook": {
+      "main": [
+        [
+          {
+            "node": "Remetente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remetente": {
+      "main": [
+        [
+          {
+            "node": "ADMIN_AUTORIZADO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ADMIN_AUTORIZADO": {
+      "main": [
+        [
+          {
+            "node": "CONSULTA_BD_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_MENU": {
+      "main": [
+        [
+          {
+            "node": "SALVA_MENU_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OPÇÃO_MENU": {
+      "main": [
+        [
+          {
+            "node": "DEFINE_DESLIGAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "DEFINE_REATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MONTA_CANCELAMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MONTA_MENU",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MARCA_DESLIGAR": {
+      "main": [
+        []
+      ]
+    },
+    "CONSULTA_BD_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "PAYLOAD_BD_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PAYLOAD_BD_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "SESSAO_EXPIRADA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ETAPA_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "OPÇÃO_MENU",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OPÇÃO_USUARIO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "MARCA_REATIVAR": {
+      "main": [
+        []
+      ]
+    },
+    "SEPARA_USUARIOS": {
+      "main": [
+        [
+          {
+            "node": "FILTRA_DESLIGADOS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALVA_MENU_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DEFINE_DESLIGAR": {
+      "main": [
+        [
+          {
+            "node": "EXCESSÃO_DESATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FILTRA_LIGADOS1": {
+      "main": [
+        [
+          {
+            "node": "ORDENA_USUARIOS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_LISTA_USUARIOS": {
+      "main": [
+        [
+          {
+            "node": "SALVA_CONSULTA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "MONTA_LISTA_USUARIOS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FILTRA_DESLIGADOS": {
+      "main": [
+        [
+          {
+            "node": "ORDENA_USUARIOS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ORDENA_USUARIOS": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OPÇÃO_USUARIO": {
+      "main": [
+        [
+          {
+            "node": "MONTA_CANCELAMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AUMENTA_PAGINA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PREPARA_ESCOLHA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PREPARA_ESCOLHA": {
+      "main": [
+        [
+          {
+            "node": "ESCOLHA_VALIDA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ESCOLHA_VALIDA": {
+      "main": [
+        [
+          {
+            "node": "ACAO_ESCOLHIDA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OPÇÃO INVALIDA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ACAO_ESCOLHIDA": {
+      "main": [
+        [
+          {
+            "node": "DESLIGA_VITA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "REATIVA_VITA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DESLIGA_VITA": {
+      "main": [
+        [
+          {
+            "node": "FINALIZA_SESSAO_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MONTA_ERRO_OPERACAO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FINALIZA_SESSAO_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "MONTA_SUCESSO_OPERACAO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MONTA_ERRO_OPERACAO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_ERRO_OPERACAO": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALVA_CONSULTA_ADMIN": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DEFINE_REATIVAR": {
+      "main": [
+        [
+          {
+            "node": "EXCESSÃO_REATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REATIVA_VITA": {
+      "main": [
+        [
+          {
+            "node": "FINALIZA_SESSAO_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MONTA_ERRO_OPERACAO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_SUCESSO_OPERACAO": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "EXCESSÃO_DESATIVAR": {
+      "main": [
+        [
+          {
+            "node": "SEPARA_USUARIOS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RESPOSTA_EXCESSÃO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEPARA_USUARIOS_REATIVAR": {
+      "main": [
+        [
+          {
+            "node": "FILTRA_LIGADOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RESPOSTA_EXCESSÃO": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUMENTA_PAGINA": {
+      "main": [
+        [
+          {
+            "node": "ACAO_PAGINACAO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "EXCESSÃO_REATIVAR": {
+      "main": [
+        [
+          {
+            "node": "SEPARA_USUARIOS_REATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RESPOSTA_EXCESSÃO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ACAO_PAGINACAO": {
+      "main": [
+        [
+          {
+            "node": "EXCESSÃO_DESATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "EXCESSÃO_REATIVAR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_LISTA_USUARIOS2": {
+      "main": [
+        []
+      ]
+    },
+    "OPÇÃO INVALIDA": {
+      "main": [
+        [
+          {
+            "node": "ENVIA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SESSAO_EXPIRADA": {
+      "main": [
+        [
+          {
+            "node": "MONTA_MENU",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ETAPA_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MONTA_CANCELAMENTO": {
+      "main": [
+        [
+          {
+            "node": "SALVA_MENU_ADMIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "active": false,
+  "meta": {
+    "note": "Sanitized export for portfolio: credentials, IDs and personal data replaced with placeholders."
+  }
+}
