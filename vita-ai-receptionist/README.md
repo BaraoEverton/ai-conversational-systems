@@ -3,6 +3,10 @@
 
 **Status:** 🟢 In production
 
+[![Vita — demo on YouTube](https://img.youtube.com/vi/VJTlh0OVKQI/maxresdefault.jpg)](https://www.youtube.com/watch?v=VJTlh0OVKQI)
+
+▶️ **[Watch the demo](https://www.youtube.com/watch?v=VJTlh0OVKQI)**: real WhatsApp conversations, scheduling, prescription reading and clinical handoff.
+
 Vita answers patients on WhatsApp for clinics and professionals who depend on scheduling and fast, personalized service. It answers questions, books, reschedules and cancels appointments, reads audio, photos and PDFs, and hands cases to the human team with a ready summary.
 
 It is not a canned-response bot. The architecture is fully customizable: services, rules, tone, notifications and internal flows are configured per business.

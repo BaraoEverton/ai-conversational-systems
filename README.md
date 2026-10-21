@@ -2,6 +2,8 @@
 
 AI-driven WhatsApp systems built with n8n, structured LLM outputs and deterministic business rules.
 
+▶️ **[Vita demo on YouTube](https://www.youtube.com/watch?v=VJTlh0OVKQI)**
+
 | Project | Description | Status |
 |---|---|---|
 | [Vita — AI Receptionist](vita-ai-receptionist) | Multi-agent receptionist for clinics: Q&A, scheduling, multimodal intake, clinical safety handoff, team control | 🟢 Production |
