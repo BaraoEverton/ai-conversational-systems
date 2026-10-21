@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f3c030"/>
+    </marker>
+    <style>
+      .t{font-size:30px;font-weight:800;fill:#f6f5ef}
+      .s{font-size:17px;fill:#a9a99f}
+      .col{font-size:15px;font-weight:700;letter-spacing:2.5px;fill:#f3c030}
+      .box{fill:#1c1c16;stroke:#34332a;stroke-width:1.5}
+      .key{fill:#2a2512;stroke:#6b5416;stroke-width:2}
+      .n{font-size:19px;font-weight:700;fill:#f6f5ef}
+      .d{font-size:14px;fill:#a9a99f}
+      .lk{stroke:#f3c030;stroke-width:2.2;fill:none;marker-end:url(#seta)}
+      .lk2{stroke:#6e6e66;stroke-width:1.8;fill:none;stroke-dasharray:6 5;marker-end:url(#seta)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="18" fill="#13130e"/>
+  <text x="50" y="62" class="t">Vita — architecture</text>
+  <text x="50" y="94" class="s">The AI interprets and writes. Code decides. Humans handle clinical questions.</text>
+
+  <!-- colunas -->
+  <text x="50" y="150" class="col">CHANNEL</text>
+  <text x="290" y="150" class="col">INTAKE</text>
+  <text x="590" y="150" class="col">DECISION</text>
+  <text x="870" y="150" class="col">SPECIALISTS</text>
+  <text x="1150" y="150" class="col">DETERMINISTIC LAYER</text>
+  <text x="1420" y="150" class="col">OUTPUT</text>
+
+  <!-- canal -->
+  <rect x="50" y="175" width="200" height="86" rx="14" class="box"/>
+  <text x="70" y="210" class="n">WhatsApp</text><text x="70" y="236" class="d">patient messages</text>
+  <rect x="50" y="290" width="200" height="86" rx="14" class="box"/>
+  <text x="70" y="325" class="n">Evolution API</text><text x="70" y="351" class="d">webhooks · send</text>
+
+  <!-- entrada -->
+  <rect x="290" y="175" width="260" height="86" rx="14" class="box"/>
+  <text x="310" y="210" class="n">Event filter</text><text x="310" y="236" class="d">messages only · no groups · on/off</text>
+  <rect x="290" y="290" width="260" height="104" rx="14" class="key"/>
+  <text x="310" y="325" class="n">Message buffer</text><text x="310" y="351" class="d">Postgres · UNIQUE(event_id)</text><text x="310" y="373" class="d">cancels previous run · merges burst</text>
+  <rect x="290" y="424" width="260" height="104" rx="14" class="box"/>
+  <text x="310" y="459" class="n">Multimodal</text><text x="310" y="485" class="d">audio → transcription</text><text x="310" y="507" class="d">image / PDF → vision (no diagnosis)</text>
+
+  <!-- decisão -->
+  <rect x="590" y="175" width="240" height="150" rx="14" class="key"/>
+  <text x="610" y="210" class="n">Interpreter agent</text>
+  <text x="610" y="238" class="d">strict JSON Schema output:</text>
+  <text x="610" y="260" class="d">goal · request · risk signals</text>
+  <text x="610" y="282" class="d">contexts needed · target agent</text>
+  <text x="610" y="304" class="d">state · last 10 events</text>
+  <rect x="590" y="355" width="240" height="86" rx="14" class="box"/>
+  <text x="610" y="390" class="n">Router</text><text x="610" y="416" class="d">Switch on "agent"</text>
+  <rect x="590" y="471" width="240" height="104" rx="14" class="box"/>
+  <text x="610" y="506" class="n">Context injection</text><text x="610" y="532" class="d">only the knowledge blocks</text><text x="610" y="554" class="d">the interpreter selected</text>
+
+  <!-- especialistas -->
+  <rect x="870" y="175" width="240" height="62" rx="12" class="key"/><text x="890" y="214" class="n">Scheduling</text>
+  <rect x="870" y="249" width="240" height="62" rx="12" class="box"/><text x="890" y="288" class="n">Services</text>
+  <rect x="870" y="323" width="240" height="62" rx="12" class="box"/><text x="890" y="362" class="n">Other services</text>
+  <rect x="870" y="397" width="240" height="62" rx="12" class="box"/><text x="890" y="436" class="n">External prescription</text>
+  <rect x="870" y="471" width="240" height="62" rx="12" class="box"/><text x="890" y="510" class="n">Fallback · safety</text>
+
+  <!-- determinístico -->
+  <rect x="1150" y="175" width="230" height="150" rx="14" class="key"/>
+  <text x="1170" y="210" class="n">Scheduling rules</text>
+  <text x="1170" y="238" class="d">JavaScript · unit + parity tests</text>
+  <text x="1170" y="260" class="d">holidays · days per location</text>
+  <text x="1170" y="282" class="d">minimum notice · start window</text>
+  <text x="1170" y="304" class="d">confirmation before writing</text>
+  <rect x="1150" y="355" width="230" height="86" rx="14" class="box"/>
+  <text x="1170" y="390" class="n">Google Calendar</text><text x="1170" y="416" class="d">success only after API reply</text>
+  <rect x="1150" y="471" width="230" height="86" rx="14" class="box"/>
+  <text x="1170" y="506" class="n">Postgres state</text><text x="1170" y="532" class="d">profile · state · bookings</text>
+
+  <!-- saída -->
+  <rect x="1420" y="175" width="140" height="150" rx="14" class="box"/>
+  <text x="1438" y="210" class="n">Reply</text><text x="1438" y="236" class="d">writer agent</text><text x="1438" y="258" class="d">patient's</text><text x="1438" y="280" class="d">language</text><text x="1438" y="302" class="d">sent in parts</text>
+  <rect x="1420" y="355" width="140" height="120" rx="14" class="key"/>
+  <text x="1438" y="390" class="n">Team alert</text><text x="1438" y="416" class="d">WhatsApp</text><text x="1438" y="438" class="d">case summary</text><text x="1438" y="460" class="d">human takes over</text>
+
+  <!-- ligações principais -->
+  <path d="M150,261 L150,290" class="lk"/>
+  <path d="M250,333 C270,333 270,218 290,218" class="lk"/>
+  <path d="M420,261 L420,290" class="lk"/>
+  <path d="M420,394 L420,424" class="lk"/>
+  <path d="M550,476 C570,476 570,250 590,250" class="lk"/>
+  <path d="M710,325 L710,355" class="lk"/>
+  <path d="M830,398 C850,398 850,206 870,206" class="lk"/>
+  <path d="M830,398 L870,354" class="lk2"/>
+  <path d="M830,398 C850,398 850,502 870,502" class="lk2"/>
+  <path d="M710,441 L710,471" class="lk2"/>
+  <path d="M1110,206 L1150,206" class="lk"/>
+  <path d="M1265,325 L1265,355" class="lk"/>
+  <path d="M1380,250 L1420,250" class="lk"/>
+  <path d="M1110,520 C1150,615 1460,615 1490,478" class="lk"/>
+
+  <!-- faixas inferiores -->
+  <rect x="50" y="640" width="1510" height="96" rx="14" fill="#1c1c16" stroke="#34332a"/>
+  <text x="74" y="676" class="col">RELIABILITY</text>
+  <text x="74" y="712" class="d" style="font-size:17px">7 validated output parsers · retry on 22 nodes · idempotent webhooks · calendar errors never become a false confirmation · instability message · [TESTE] mode · backup before every change</text>
+  <rect x="50" y="756" width="1510" height="96" rx="14" fill="#1c1c16" stroke="#34332a"/>
+  <text x="74" y="792" class="col">SELF-HOSTED INFRASTRUCTURE</text>
+  <text x="74" y="828" class="d" style="font-size:17px">Linux VPS · Docker · Caddy (HTTPS) · n8n · Postgres (Supabase self-hosted) · Evolution API · pdf-converter (FastAPI + PyMuPDF) · daily backups with restore test</text>
+</svg>
